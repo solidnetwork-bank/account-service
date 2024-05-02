@@ -1,6 +1,7 @@
 package xyz.solidnetwork.service.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -15,11 +16,14 @@ public class AccountService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Value("${transaction.service.url}")
+    private String transactionServiceUrl;
+
     public Report getReport() {
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:80"));
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(transactionServiceUrl));
 
         log.info("microservice transaction-service is invoked");
-        return restTemplate.postForObject("/private/transaction", "body-request", Report.class);
+        return restTemplate.postForObject("/transaction", "body-request", Report.class);
 
     }
 
