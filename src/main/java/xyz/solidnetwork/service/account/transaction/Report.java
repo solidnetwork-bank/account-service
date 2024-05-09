@@ -8,6 +8,10 @@ public class Report {
     private List<Transaction> withdrawals;
     private List<Transaction> fees;
 
+    public Report() {
+        super();
+    }
+
     public Report(String account, List<Transaction> deposits, List<Transaction> withdrawals,
             List<Transaction> fees) {
         this.account = account;
