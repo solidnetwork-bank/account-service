@@ -9,7 +9,7 @@
 
 # Generate Jar before build
 ````
-./.mvn/mvnw -B package --file pom.xml
+./.mvn/mvnw clean install
 ````
 
 # build

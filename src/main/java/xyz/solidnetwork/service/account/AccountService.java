@@ -23,11 +23,13 @@ public class AccountService {
 
     public Report getReport() {
 
-        log.info("microservice transaction-service is through fifo queue");
+        log.info("microservice transaction-service called through fifo queue");
 
         producer.send(new Request(UUID.randomUUID().toString()));
 
-       return consumer.getReport();
+        log.info("microservice transaction-service answered through fifo queue");
+
+        return consumer.receive();
 
     }
 
