@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import xyz.solidnetwork.service.account.transaction.Report;
 import xyz.solidnetwork.service.aws.sqs.Consumer;
 import xyz.solidnetwork.service.aws.sqs.Producer;
 import xyz.solidnetwork.service.aws.sqs.Request;
+import xyz.solidnetwork.service.transaction.Report;
 
 @Service
 @Slf4j
@@ -25,11 +25,13 @@ public class AccountService {
 
         log.info("microservice transaction-service called through fifo queue");
 
-        producer.send(new Request(UUID.randomUUID().toString()));
+        Request request = new Request();
+        request.setId(UUID.randomUUID().toString());
+        producer.send(request);
 
         log.info("microservice transaction-service answered through fifo queue");
 
-        return consumer.receive();
+        return consumer.receive().getReport();
 
     }
 

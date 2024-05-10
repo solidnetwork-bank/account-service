@@ -32,8 +32,8 @@ public class Producer {
         headers.put(Const.USER_ID, MDC.get(Const.USER_ID));
         headers.put(Const.TRACE_ID, MDC.get(Const.TRACE_ID));
 
-        SendResult<String> result = sqsTemplate.send(to -> to.queue(queueName)
-                .payload("{}")
+        SendResult<Request> result = sqsTemplate.send(to -> to.queue(queueName)
+                .payload(request)
                 .headers(headers)
                 .messageGroupId(messageGroupId)
                 .messageDeduplicationId(MDC.get(Const.TRACE_ID)));

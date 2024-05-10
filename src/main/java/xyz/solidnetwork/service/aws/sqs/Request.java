@@ -3,8 +3,8 @@ package xyz.solidnetwork.service.aws.sqs;
 public class Request {
     private String id;
 
-    public Request(String id) {
-        this.id = id;
+    public Request() {
+        super();
     }
 
     public String getId() {
@@ -13,11 +13,6 @@ public class Request {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Request [id=" + id + "]";
     }
 
 }

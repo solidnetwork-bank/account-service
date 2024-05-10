@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import xyz.solidnetwork.service.account.transaction.Report;
+import xyz.solidnetwork.service.transaction.Report;
 
 @RestController
 @Slf4j
