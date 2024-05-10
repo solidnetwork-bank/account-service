@@ -1,4 +1,4 @@
-package xyz.solidnetwork.service.account.transaction;
+package xyz.solidnetwork.service.aws.sqs;
 
 public class Request {
     private String id;

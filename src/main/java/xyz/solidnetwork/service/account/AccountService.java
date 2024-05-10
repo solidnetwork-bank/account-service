@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import xyz.solidnetwork.service.account.transaction.Report;
-import xyz.solidnetwork.service.account.transaction.Request;
 import xyz.solidnetwork.service.aws.sqs.Consumer;
 import xyz.solidnetwork.service.aws.sqs.Producer;
+import xyz.solidnetwork.service.aws.sqs.Request;
 
 @Service
 @Slf4j
