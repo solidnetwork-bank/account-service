@@ -1,7 +1,10 @@
 package xyz.solidnetwork.service.account;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +24,56 @@ public class AccountService {
     @Autowired
     private Consumer consumer;
 
+    private static final int SLEEP_TIME = 1000;
+
     public Report getReport() {
 
-        log.info("microservice transaction-service called through fifo queue");
+        Map<String, String> mdcContextMap = MDC.getCopyOfContextMap();
 
-        Request request = new Request();
-        request.setId(UUID.randomUUID().toString());
-        producer.send(request);
+        Thread producerTask = new Thread(() -> {
+            MDC.setContextMap(mdcContextMap);
+            log.info("microservice transaction-service called through fifo queue");
 
-        log.info("microservice transaction-service answered through fifo queue");
+            Request request = new Request();
+            request.setId(UUID.randomUUID().toString());
+            producer.send(request);
+        });
+        producerTask.start();
 
-        return consumer.receive().getReport();
+        try {
+
+            return CompletableFuture.supplyAsync(() -> {
+                MDC.setContextMap(mdcContextMap);
+                log.info("microservice transaction-service answered through fifo queue");
+
+                try {
+                    log.info("sleep {} microseconds before call the queue", SLEEP_TIME);
+                    Thread.sleep(SLEEP_TIME);
+                } catch (Throwable ex) {
+                    log.error("error while sleep before to call fifo queue", ex);
+
+                    return new Report();
+                }
+
+                Report report = consumer.receive();
+
+                log.info("report from queue {}", report);
+
+                return report;
+
+            }).exceptionally((throwable) -> {
+
+                log.error("response from fifo queue", throwable);
+
+                return new Report();
+
+            }).get();
+
+        } catch (Throwable e) {
+            log.error("error processing call to fifo queue", e);
+
+            return new Report();
+        }
 
     }
 
