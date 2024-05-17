@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
-import xyz.solidnetwork.service.transaction.Report;
 
 @Service
 @Slf4j
@@ -23,7 +22,7 @@ public class Consumer {
     @Value("${aws.transaction.response.queue.name}")
     private String queueName;
 
-    public Report receive() {
+    public Response receive() {
 
         Optional<Message<Response>> receivedMessage = sqsTemplate
                 .receive(from -> from.queue(queueName)
@@ -35,7 +34,7 @@ public class Consumer {
 
         log.info("message receive from queue {}", receivedMessage);
 
-        return receivedMessage.get().getPayload().getReport();
+        return receivedMessage.get().getPayload();
 
     }
 
