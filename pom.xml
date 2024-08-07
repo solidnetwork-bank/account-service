@@ -18,10 +18,10 @@
 		<log.time.zone>America/New_York</log.time.zone>
 		<log.date.pat>ISO8601</log.date.pat>
 		<service.profile>dev</service.profile>
-		<transaction.service.url>http://127.0.0.1:5015</transaction.service.url>
+		<transaction.service.url>http://172.17.0.1:5015</transaction.service.url>
 	</properties>
 	<groupId>xyz.solidnetwork</groupId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 	<name>${service.name}</name>
 	<description>${service.name}</description>
 	<packaging>jar</packaging>
